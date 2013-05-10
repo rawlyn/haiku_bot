@@ -24,7 +24,6 @@ def count_phoneme_syllables(phoneme, debug=False):
 		
 		if debug:
 			if vowel_count > 0:
-				#print remaining
 				print "{0}: {1} occurence".format(vowel, vowel_count)
 			
 		count += vowel_count

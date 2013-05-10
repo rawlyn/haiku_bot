@@ -14,6 +14,7 @@ def connect():
 	
 	# open database
 	connection = sqlite3.connect("data.db")
+	connection.row_factory = sqlite3.Row
 	cursor = connection.cursor()
 
 
@@ -30,7 +31,7 @@ def disconnect():
 	cursor = None
 
 
-def init_db():
+def init():
 	"""
 	initialises db
 	"""
@@ -94,6 +95,4 @@ def get_unreplied_haikus():
 	disconnect()
 	
 	return data
-
-
 

@@ -3,8 +3,9 @@ import praw
 import user # not in repo, used to store reddit user agent details
 
 import haiku
-import sqlite3
 import db
+
+db.init()
 
 
 print "fetching reddit comments..."
@@ -14,7 +15,7 @@ agent = praw.Reddit(user_agent=user.agent)
 agent.login(user.name, user.password)
 
 # read comments
-comments = agent.get_subreddit(user.subreddits).get_comments(limit=None)
+comments = agent.get_subreddit(user.subreddits).get_comments(limit=user.limit)
 
 
 # search for haikus
@@ -41,6 +42,8 @@ for comment in comments:
 
 # get list of comments that need replying to
 data = db.get_unreplied_haikus()
-print data
+
+for row in data:
+	print row["comment_id"]
 
 
