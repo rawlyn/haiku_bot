@@ -90,29 +90,3 @@ def get_haiku(text, debug=False):
 		
 	return haiku
 
-
-if __name__ == "__main__":
-	mary = """
-Mary had a little lamb, its fleece as white as snow.
-And everywhere that Mary went, her lamb was sure to go.
-	"""
-	
-	haiku = """
-If there are five sounds, then seven sounds then five sounds - you've got a haiku!
-	"""
-	
-	comment_haiku = """
-Dude, stop being such a faggot. You suck dick and I'm fucking your mum.
-	"""
-	
-	almost_haiku = """
-Not everything with seventeen syllables adjacent is a win.
-	"""
-	
-	#syllable_count = count_text_syllables(mary, True)
-	#print syllable_count
-	
-	#print get_haiku(mary, True)
-	print get_haiku(haiku, True)
-	#print get_haiku(comment_haiku, True)
-	#print get_haiku(almost_haiku, True)
