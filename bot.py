@@ -69,7 +69,7 @@ def main():
 		print "-" * 17
 		
 		comment = agent.get_submission(comment_url).comments[0]
-		#comment.reply(full_reply)
+		comment.reply(full_reply)
 		
 		time.sleep(2)
 		

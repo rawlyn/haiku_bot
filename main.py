@@ -4,4 +4,4 @@ import time
 
 while True:
 	bot.main()
-	time.sleep(2)
+	time.sleep(10)
