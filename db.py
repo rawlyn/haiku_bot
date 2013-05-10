@@ -2,42 +2,64 @@
 import sqlite3
 
 
-# open database
-connection = sqlite3.connect("data.db")
-cursor = connection.cursor()
-
-# create table if it doesn't exist
-sql = """
-CREATE TABLE IF NOT EXISTS haiku
-(
-id INTEGER PRIMARY KEY,
-comment_id VARCHAR(10) NOT NULL UNIQUE,
-comment_haiku VARCHAR(150),
-replied INT
-);
-"""
-cursor.execute(sql)
+connection = None
+cursor = None
 
 
-def commit():
+def connect():
 	"""
-	convenience function
+	open and initialise database
 	"""
-	connection.commit()
+	global connection, cursor
 	
+	# open database
+	connection = sqlite3.connect("data.db")
+	cursor = connection.cursor()
+
+
+def disconnect():
+	"""
+	commit and close connection
+	"""
+	global connection, cursor
 	
-def close():
-	"""
-	convenience function
-	"""
 	connection.commit()
 	connection.close()
+	
+	connection = None
+	cursor = None
+
+
+def init_db():
+	"""
+	initialises db
+	"""
+	global cursor
+	
+	connect()
+	
+	# create table if it doesn't exist
+	sql = """
+	CREATE TABLE IF NOT EXISTS haiku
+	(
+	id INTEGER PRIMARY KEY,
+	comment_id VARCHAR(10) NOT NULL UNIQUE,
+	comment_haiku VARCHAR(150),
+	replied INT
+	);
+	"""
+	cursor.execute(sql)
+	
+	disconnect()
 
 
 def store_comment_haiku(comment_id, haiku):
 	"""
 	save detected comment haiku to the database, marked as unreplied
 	"""
+	global cursor
+	
+	connect()
 	
 	sql = """
 	INSERT INTO haiku (comment_id, comment_haiku, replied) VALUES (?,?,?);
@@ -49,11 +71,16 @@ def store_comment_haiku(comment_id, haiku):
 	except sqlite3.IntegrityError, e:
 		print "[not stored - already detected]".format(comment_id)
 		
+	disconnect()
+		
 
 def get_unreplied_haikus():
 	"""
 	return a list of haikus that have not been replied to
 	"""
+	global cursor
+	
+	connect()
 	
 	sql = """
 	SELECT id, comment_id, comment_haiku, replied
@@ -63,6 +90,8 @@ def get_unreplied_haikus():
 	cursor.execute(sql)
 	
 	data = cursor.fetchall()
+	
+	disconnect()
 	
 	return data
 

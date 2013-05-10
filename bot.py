@@ -16,6 +16,7 @@ agent.login(user.name, user.password)
 # read comments
 comments = agent.get_subreddit(user.subreddits).get_comments(limit=None)
 
+
 # search for haikus
 print "looking for haikus..."
 
@@ -37,12 +38,9 @@ for comment in comments:
 		
 		print "-" * 17
 
-db.commit()
 
 # get list of comments that need replying to
 data = db.get_unreplied_haikus()
 print data
 
-# close db
-db.close()
 
