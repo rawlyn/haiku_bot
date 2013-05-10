@@ -53,7 +53,7 @@ def main():
 		formatted_haiku = comment_haiku.replace("\n", "\n\n")
 		
 		full_reply = """
-*Your comment appears to be expressible as a (dodgy) haiku!*
+*Your comment can be read as a (dodgy) haiku!*
 	
 ***
 
