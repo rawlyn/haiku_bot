@@ -73,4 +73,6 @@ def main():
 		
 		db.mark_as_replied(comment_url)
 	
+if __name__ == "__main__":
+	main()
 	
