@@ -44,7 +44,7 @@ def init():
 	CREATE TABLE IF NOT EXISTS haiku
 	(
 	id INTEGER PRIMARY KEY,
-	comment_id VARCHAR(10) NOT NULL UNIQUE,
+	comment_url VARCHAR(250) NOT NULL UNIQUE,
 	comment_haiku VARCHAR(150),
 	replied INT
 	);
@@ -54,7 +54,7 @@ def init():
 	disconnect()
 
 
-def store_comment_haiku(comment_id, haiku):
+def store_comment_haiku(comment_url, haiku):
 	"""
 	save detected comment haiku to the database, marked as unreplied
 	"""
@@ -63,14 +63,14 @@ def store_comment_haiku(comment_id, haiku):
 	connect()
 	
 	sql = """
-	INSERT INTO haiku (comment_id, comment_haiku, replied) VALUES (?,?,?);
+	INSERT INTO haiku (comment_url, comment_haiku, replied) VALUES (?,?,?);
 	"""
 	
 	try:
-		cursor.execute(sql, (comment_id, haiku, 0))
-		print "[stored - new haiku]".format(comment_id)
+		cursor.execute(sql, (comment_url, haiku, 0))
+		print "[stored - new haiku]".format(comment_url)
 	except sqlite3.IntegrityError, e:
-		print "[not stored - already detected]".format(comment_id)
+		print "[not stored - already detected]".format(comment_url)
 		
 	disconnect()
 		
@@ -84,7 +84,7 @@ def get_unreplied_haikus():
 	connect()
 	
 	sql = """
-	SELECT id, comment_id, comment_haiku, replied
+	SELECT id, comment_url, comment_haiku, replied
 	FROM haiku
 	WHERE replied = 0;
 	"""
@@ -96,3 +96,20 @@ def get_unreplied_haikus():
 	
 	return data
 
+
+def mark_as_replied(comment_url):
+	"""
+	mark comment_url as replied
+	"""
+	global cursor
+	
+	connect()
+	
+	sql = """
+	UPDATE haiku
+	SET replied = 1
+	WHERE comment_url = ?;
+	"""
+	cursor.execute(sql, (comment_url,))
+	
+	disconnect()
