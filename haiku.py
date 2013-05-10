@@ -47,6 +47,13 @@ def get_haiku(text, debug=False):
 	except UnicodeEncodeError, e:
 		return ""
 	
+	# broad phase cleanup - remove double exclamations and dots (espeak reads them out)
+	while ascii_text.find("!!") != -1:
+		ascii_text = ascii_text.replace("!!", "!")
+		
+	while ascii_text.find("..") != -1:
+		ascii_text = ascii_text.replace("..", ".")
+	
 	# broad phase test - see if there are 17 syllables
 	syllable_count = syllables.count_text_syllables(ascii_text, debug)
 	

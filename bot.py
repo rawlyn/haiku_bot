@@ -20,7 +20,6 @@ def main():
 	# read comments
 	comments = agent.get_subreddit(user.subreddits).get_comments(limit=user.limit)
 	
-	
 	# search for haikus
 	print "looking for haikus..."
 	
@@ -28,6 +27,7 @@ def main():
 		comment_body = comment.body
 		comment_url = comment.permalink
 		
+		print "."
 		comment_haiku = haiku.get_haiku(comment_body)
 		
 		if comment_haiku != "":
@@ -64,10 +64,12 @@ def main():
 *^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21)*"""
 		full_reply = full_reply.format(formatted_haiku, user.name)
 		
+		print "-" * 17
 		print "replying to {0}".format(comment_url)
+		print "-" * 17
 		
 		comment = agent.get_submission(comment_url).comments[0]
-		comment.reply(full_reply)
+		#comment.reply(full_reply)
 		
 		time.sleep(2)
 		
