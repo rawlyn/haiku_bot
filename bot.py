@@ -66,14 +66,19 @@ def main():
 		
 		print "-" * 17
 		print "replying to {0}".format(comment_url)
-		print "-" * 17
 		
 		comment = agent.get_submission(comment_url).comments[0]
-		comment.reply(full_reply)
+		
+		try:
+			comment.reply(full_reply)
+			db.mark_as_replied(comment_url)
+			print "success"
+		except praw.errors.RateLimitExceeded, e:
+			print "failed ({0})".format(e.message)
+		
+		print "-" * 17
 		
 		time.sleep(2)
-		
-		db.mark_as_replied(comment_url)
 	
 if __name__ == "__main__":
 	main()
