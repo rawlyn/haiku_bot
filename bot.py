@@ -43,7 +43,25 @@ for comment in comments:
 # get list of comments that need replying to
 data = db.get_unreplied_haikus()
 
+# reply to haiku comments
 for row in data:
-	print row["comment_id"]
+	comment_id = row["comment_id"]
+	comment_haiku = row["comment_haiku"]
+	
+	formatted_haiku = comment_haiku.replace("\n", "\n\n")
+	
+	full_reply = """
+*Your comment appears to be expressible as a haiku!*
 
+***
+
+{0}
+
+***
+
+*^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21)*
+	""".format(formatted_haiku, user.name)
+	
+	print "#{0}#".format(full_reply)
+	
 
