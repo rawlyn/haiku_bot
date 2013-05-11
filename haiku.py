@@ -60,6 +60,15 @@ def suitable_text(text, debug=False):
 	# remove asterisks (espeak reads them out)
 	ascii_text = ascii_text.replace("*", "")
 	
+	# remove smileys
+	ascii_text = ascii_text.replace(":)", "")
+	ascii_text = ascii_text.replace(";)", "")
+	ascii_text = ascii_text.replace(":P", "")
+	ascii_text = ascii_text.replace(";P", "")
+	ascii_text = ascii_text.replace(":D", "")
+	ascii_text = ascii_text.replace(";D", "")
+	ascii_text = ascii_text.replace("(:", "")
+	
 	# broad phase test - see if there are 17 syllables
 	syllable_count = syllables.count_text_syllables(ascii_text, debug)
 	
