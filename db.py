@@ -113,3 +113,4 @@ def mark_as_replied(comment_url):
 	cursor.execute(sql, (comment_url,))
 	
 	disconnect()
+

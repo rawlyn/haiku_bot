@@ -11,6 +11,10 @@ import time
 db.init()
 
 def main():
+	time_start = time.time()
+	haiku_count = 0
+	total_count = 0
+	
 	print "fetching reddit comments..."
 	
 	# create an agent
@@ -24,14 +28,15 @@ def main():
 	print "looking for haikus..."
 	
 	for comment in comments:
-		comment_body = comment.body
-		comment_url = comment.permalink
+		total_count += 1
 		
-		print "."
+		comment_body = comment.body
 		comment_haiku = haiku.get_haiku(comment_body)
 		
 		if comment_haiku != "":
 			print "-" * 17
+			
+			comment_url = comment.permalink
 			
 			print "url: {0}".format(comment_url)
 			print comment_haiku
@@ -40,10 +45,16 @@ def main():
 			db.store_comment_haiku(comment_url, comment_haiku)
 			
 			print "-" * 17
-	
+			
+			haiku_count += 1
+			
+			time.sleep(1)
 	
 	# get list of comments that need replying to
 	data = db.get_unreplied_haikus()
+	
+	reply_success_count = 0
+	reply_total_count = 0
 	
 	# reply to haiku comments
 	for row in data:
@@ -69,16 +80,34 @@ def main():
 		
 		comment = agent.get_submission(comment_url).comments[0]
 		
+		reply_total_count += 1
+		
 		try:
 			comment.reply(full_reply)
 			db.mark_as_replied(comment_url)
 			print "success"
+			reply_success_count +=1
 		except praw.errors.RateLimitExceeded, e:
 			print "failed ({0})".format(e.message)
 		
 		print "-" * 17
 		
 		time.sleep(2)
+		
+	time_end = time.time()
+	time_total = time_end - time_start
+	
+	comments_per_sec = int(total_count / time_total)
+	
+	print "#" * 68
+	
+	print "{0} / {1} comments were haikus".format(haiku_count, total_count)
+	print "took {0} seconds".format(time_total)
+	print "~{0} comments/second".format(comments_per_sec)
+	print "{0} / {1} replies sent".format(reply_success_count, reply_total_count)
+	
+	print "#" * 68
+	
 	
 if __name__ == "__main__":
 	main()

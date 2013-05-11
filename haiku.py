@@ -33,18 +33,21 @@ def extract_line(words, desired_syllable_count, debug=False):
 	
 	# failed, return empty string
 	return "", remaining
-	
 
-def get_haiku(text, debug=False):
+
+def suitable_text(text, debug=False):
 	"""
-	return empty string if text is not a haiku
-	else return text formatted as a haiku
+	return text if text is suitable for processing
+	else return empty string	
 	"""
-	
 	# broad phase test - only accept ASCII-friendly text
 	try:
 		ascii_text = text.encode("ascii", "xmlcharrefreplace")
 	except UnicodeEncodeError, e:
+		return ""
+		
+	# broad phase test - only likely lengths should be checked
+	if 20 >= len(ascii_text) >= 150:
 		return ""
 	
 	# broad phase cleanup - remove double exclamations and dots (espeak reads them out)
@@ -53,11 +56,29 @@ def get_haiku(text, debug=False):
 		
 	while ascii_text.find("..") != -1:
 		ascii_text = ascii_text.replace("..", ".")
+		
+	# remove asterisks (espeak reads them out)
+	ascii_text = ascii_text.replace("*", "")
 	
 	# broad phase test - see if there are 17 syllables
 	syllable_count = syllables.count_text_syllables(ascii_text, debug)
 	
 	if syllable_count != 17:
+		return ""
+		
+	# all tests passed, return text
+	return ascii_text
+	
+
+def get_haiku(text, debug=False):
+	"""
+	return empty string if text is not a haiku
+	else return text formatted as a haiku
+	"""
+	
+	# check suitability
+	ascii_text = suitable_text(text, debug)
+	if ascii_text == "":
 		return ""
 		
 	# break text into words

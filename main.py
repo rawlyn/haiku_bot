@@ -4,4 +4,6 @@ import time
 
 while True:
 	bot.main()
-	time.sleep(30)
+	print "sleeping before restart..."
+	time.sleep(300)
+
