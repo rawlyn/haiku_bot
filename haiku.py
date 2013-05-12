@@ -60,7 +60,10 @@ def suitable_text(text, debug=False):
 	# remove asterisks (espeak reads them out)
 	ascii_text = ascii_text.replace("*", "")
 	
-	# remove smileys
+	# remove hashes for same reason
+	ascii_text = ascii_text.replace("#", "")
+	
+	# remove smileys (espeak just gets confused)
 	ascii_text = ascii_text.replace(":)", "")
 	ascii_text = ascii_text.replace(";)", "")
 	ascii_text = ascii_text.replace(":P", "")
@@ -68,6 +71,12 @@ def suitable_text(text, debug=False):
 	ascii_text = ascii_text.replace(":D", "")
 	ascii_text = ascii_text.replace(";D", "")
 	ascii_text = ascii_text.replace("(:", "")
+	
+	# replace "OP" with "O.P." (espeak reads as "op" as in "hop")
+	ascii_text = ascii_text.replace(" OP", " O.P.")
+	
+	# replace "plz" with "please" (espeak reads "P.L.Z")
+	ascii_text = ascii_text.replace(" plz", " please")
 	
 	# broad phase test - see if there are 17 syllables
 	syllable_count = syllables.count_text_syllables(ascii_text, debug)
@@ -127,3 +136,7 @@ def get_haiku(text, debug=False):
 		
 	return haiku
 
+
+if __name__ == "__main__":
+	print get_haiku("My friend sold his WII for $35 so he could buy weed", True)
+	

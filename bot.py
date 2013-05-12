@@ -34,21 +34,22 @@ def main():
 		comment_haiku = haiku.get_haiku(comment_body)
 		
 		if comment_haiku != "":
-			print "-" * 17
-			
-			comment_url = comment.permalink
-			
-			print "url: {0}".format(comment_url)
-			print comment_haiku
-			
-			# store haiku to database
-			db.store_comment_haiku(comment_url, comment_haiku)
-			
-			print "-" * 17
-			
-			haiku_count += 1
-			
-			time.sleep(1)
+			if comment.is_root: # EXPERIMENT: only look at root-level comments
+				print "-" * 17
+				
+				comment_url = comment.permalink
+				
+				print "url: {0}".format(comment_url)
+				print comment_haiku
+				
+				# store haiku to database
+				db.store_comment_haiku(comment_url, comment_haiku)
+				
+				print "-" * 17
+				
+				haiku_count += 1
+				
+				time.sleep(1)
 	
 	# get list of comments that need replying to
 	data = db.get_unreplied_haikus()
@@ -72,8 +73,8 @@ def main():
 
 ***
 
-*^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21)*"""
-		full_reply = full_reply.format(formatted_haiku, user.name)
+*^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21&message={2})*"""
+		full_reply = full_reply.format(formatted_haiku, user.name, comment_url)
 		
 		print "-" * 17
 		print "replying to {0}".format(comment_url)

@@ -57,4 +57,6 @@ def count_text_syllables(text, debug=False):
 
 	return total_count
 	
+if __name__ == "__main__":
+	print count_text_syllables("for $35", True)
 	
