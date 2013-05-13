@@ -10,6 +10,8 @@ VOWELS_2 = ["3:", "@L", "@2", "@5", "aa", "a#", "A:", "A@", "e@", "I2", "i:", "i
 VOWELS_1 = ["@", "3", "a", "E", "I", "i", "0", "V", "U", "e", "o", "y", "Y"]
 VOWELS = EXCEPTIONS_3 + VOWELS_3 + VOWELS_2 + VOWELS_1
 
+VOWELS.remove("i@") # "ea" as in "idea", remove so it gets counted as two syllables
+
 
 def count_phoneme_syllables(phoneme, debug=False):
 	"""

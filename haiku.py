@@ -45,6 +45,9 @@ def suitable_text(text, debug=False):
 		ascii_text = text.encode("ascii", "xmlcharrefreplace")
 	except UnicodeEncodeError, e:
 		return ""
+	
+	# workaround for "OP" - add a space to the start
+	ascii_text = " " + ascii_text
 		
 	# broad phase test - only likely lengths should be checked
 	if 20 >= len(ascii_text) >= 150:
@@ -56,6 +59,9 @@ def suitable_text(text, debug=False):
 		
 	while ascii_text.find("..") != -1:
 		ascii_text = ascii_text.replace("..", ".")
+		
+	# replace "." with ". " so that it doesn't get read as "dot" between sentences
+	ascii_text = ascii_text.replace(".", ". ")
 		
 	# remove asterisks (espeak reads them out)
 	ascii_text = ascii_text.replace("*", "")
