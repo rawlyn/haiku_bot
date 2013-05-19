@@ -74,8 +74,8 @@ def main():
 
 ***
 
-*^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21&message={2})*"""
-		full_reply = full_reply.format(formatted_haiku, user.name, comment_url)
+*^Did ^I ^screw ^up? [^Let ^me ^know!](http://www.reddit.com/message/compose/?to={1}&subject=You%20screwed%20up%21&message="""
+		full_reply = full_reply.format(formatted_haiku, user.name) + comment_url + ")*"
 		
 		print "-" * 17
 		print "replying to"
