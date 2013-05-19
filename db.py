@@ -68,9 +68,9 @@ def store_comment_haiku(comment_url, haiku):
 	
 	try:
 		cursor.execute(sql, (comment_url, haiku, 0))
-		print "[stored - new haiku]".format(comment_url)
+		print "[stored - new haiku]"
 	except sqlite3.IntegrityError, e:
-		print "[not stored - already detected]".format(comment_url)
+		print "[not stored - already detected]"
 		
 	disconnect()
 		

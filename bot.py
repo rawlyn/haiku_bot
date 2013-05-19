@@ -39,7 +39,8 @@ def main():
 				
 				comment_url = comment.permalink
 				
-				print "url: {0}".format(comment_url)
+				print comment_url
+				
 				print comment_haiku
 				
 				# store haiku to database
@@ -77,7 +78,8 @@ def main():
 		full_reply = full_reply.format(formatted_haiku, user.name, comment_url)
 		
 		print "-" * 17
-		print "replying to {0}".format(comment_url)
+		print "replying to"
+		print comment_url
 		
 		comment = agent.get_submission(comment_url).comments[0]
 		

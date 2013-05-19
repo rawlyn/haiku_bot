@@ -69,6 +69,10 @@ def suitable_text(text, debug=False):
 	# remove hashes for same reason
 	ascii_text = ascii_text.replace("#", "")
 	
+	# and > and <
+	ascii_text = ascii_text.replace("&gt;", "")
+	ascii_text = ascii_text.replace("&lt;", "")
+	
 	# remove smileys (espeak just gets confused)
 	ascii_text = ascii_text.replace(":)", "")
 	ascii_text = ascii_text.replace(";)", "")
@@ -144,5 +148,5 @@ def get_haiku(text, debug=False):
 
 
 if __name__ == "__main__":
-	print get_haiku("My friend sold his WII for $35 so he could buy weed", True)
+	print get_haiku("This reminds me of Randy's bong from Trailer Park Boys hehehe...good times", True)
 	

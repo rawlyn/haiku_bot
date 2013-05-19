@@ -4,7 +4,7 @@ import espeak
 
 # vowel sounds (note "0" is a _zero_, not an uppercase "o")
 # from http://espeak.sourceforge.net/phonemes.html
-EXCEPTIONS_3 = ["dnt"] # didn't -> d'Idnt
+EXCEPTIONS_3 = ["dnt", "snt"] # didn't -> d'Idnt, wasn't -> w'0snt
 VOWELS_3 = ["aI@", "aU@"]
 VOWELS_2 = ["3:", "@L", "@2", "@5", "aa", "a#", "A:", "A@", "e@", "I2", "i:", "i@", "u:", "U@", "O:", "O@", "o@", "aI", "eI", "OI", "aU", "oU"]
 VOWELS_1 = ["@", "3", "a", "E", "I", "i", "0", "V", "U", "e", "o", "y", "Y"]
